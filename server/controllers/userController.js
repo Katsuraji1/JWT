@@ -53,3 +53,5 @@ class UserContoller {
         }
     }
 }
+
+module.exports = UserContoller()
