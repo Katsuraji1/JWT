@@ -47,6 +47,29 @@ class UserService {
         await TokenService.saveToken(data.id, tokens.refreshToken)
         return {...tokens, user: data}
     }
+
+    async logout(refreshToken) {
+        const data = await TokenService.removeToken(refreshToken)
+        return data
+    }
+
+    async refresh (refreshToken) {
+        if(!refreshToken) {
+            throw ApiError.UnauthorizedError()
+        }
+        const userData = TokenService.validateRefreshToken(refreshToken)
+        const tokenFromDataBase = await TokenService.findToken(refreshToken)
+        if(!userData || !tokenFromDataBase) {
+            throw ApiError.UnauthorizedError()
+        }
+
+        const user = await userModel.findById(userData.id)
+
+        const data = new UserDto(user)
+        const tokens = TokenService.generateToken({...data})
+        await TokenService.saveToken(data.id, tokens.refreshToken)
+        return {...tokens, user: data}
+    }
 }
 
 module.exports = new UserService()
