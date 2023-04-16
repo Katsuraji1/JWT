@@ -70,6 +70,11 @@ class UserService {
         await TokenService.saveToken(data.id, tokens.refreshToken)
         return {...tokens, user: data}
     }
+
+    async getAllUsers() {
+        const users = await userModel.find()
+        return users
+    }
 }
 
 module.exports = new UserService()

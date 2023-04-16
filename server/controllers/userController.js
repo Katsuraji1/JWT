@@ -57,7 +57,8 @@ class UserContoller {
 
     async users (req, res, next) {
         try{
-            res.json(['1','1'])
+            const users = await userService.getAllUsers()
+            res.json(users)
         } 
         catch(e) {
             next(e)
