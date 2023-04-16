@@ -9,7 +9,7 @@ class UserContoller {
             return res.json(userData)
         } 
         catch(e) {
-            console.log(e)
+            next(e)
         }
     }
 
@@ -18,7 +18,7 @@ class UserContoller {
 
         } 
         catch(e) {
-            
+            next(e)
         }
     }
 
@@ -27,7 +27,7 @@ class UserContoller {
 
         } 
         catch(e) {
-            
+            next(e)
         }
     }
 
@@ -36,7 +36,7 @@ class UserContoller {
 
         } 
         catch(e) {
-            
+            next(e)
         }
     }
 
@@ -45,16 +45,18 @@ class UserContoller {
             res.json(['1','1'])
         } 
         catch(e) {
-            
+            next(e)
         }
     }
 
     async activate (req, res, next) {
         try{
-
+            const activationLink = req.params.link
+            await userService.activate(activationLink)
+            return res.redirect(process.env.FRONTEND_HOST)
         } 
         catch(e) {
-            
+            next(e)
         }
     }
 }
